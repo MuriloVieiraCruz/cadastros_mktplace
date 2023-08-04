@@ -3,7 +3,6 @@ package br.com.senai.view.componentes.table;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 
 import br.com.senai.core.domain.Categoria;
 

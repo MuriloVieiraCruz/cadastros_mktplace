@@ -36,6 +36,7 @@ public class HorarioService {
 			horarios.addAll(listarPorId(horario.getRestaurante().getId()));
 			horarios.remove(horario);
 			
+			
 			boolean isConflito = horarios
 					.stream()
 					.anyMatch(horari -> horari.getDiaDaSemana().equals(horario.getDiaDaSemana())

@@ -3,12 +3,15 @@ package br.com.senai.core.service;
 import java.util.List;
 
 import br.com.senai.core.dao.DaoCategoria;
+import br.com.senai.core.dao.DaoRestaurante;
 import br.com.senai.core.dao.FactoryDao;
 import br.com.senai.core.domain.Categoria;
 
 public class CategoriaService {
 	
 	private DaoCategoria dao;
+	
+	private DaoRestaurante daoRestaurante;
 	
 	public CategoriaService() {
 		this.dao = FactoryDao.getInstance().getDaoCategoria();
@@ -48,9 +51,18 @@ public class CategoriaService {
 	
 	public void removerPor(int idDaCategoria) {
 		if (idDaCategoria > 0) {
-			this.dao.excluirPor(idDaCategoria);
-		}else {
-			throw new IllegalArgumentException("O id para remoção da categoria deve ser maior que zero");
+			
+			int qtdeRestaurantes = daoRestaurante.contarPor(idDaCategoria);
+			
+			if (qtdeRestaurantes > 0) {
+				throw new IllegalArgumentException(
+						"A categoria não pode ser excluída porque contém restaurantes vinculados a ele");
+			} else {
+				this.dao.excluirPor(idDaCategoria);
+			}
+		} else {
+			throw new IllegalArgumentException(
+					"O id para remoção da categoria deve ser maior que zero");
 		}
 	}
 	

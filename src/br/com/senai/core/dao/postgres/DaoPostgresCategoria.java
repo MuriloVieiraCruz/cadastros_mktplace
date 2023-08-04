@@ -176,5 +176,4 @@ public class DaoPostgresCategoria implements DaoCategoria {
 		}
 		return categorias;
 	}
-
 }

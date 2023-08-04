@@ -46,7 +46,8 @@ public class RestauranteService {
 							|| restaurante.getNome().length() > 250;
 							
 					if (isNomeInvalido) {
-						throw new IllegalArgumentException("O nome é obrigatório e deve possuir entre 3 e 250 caracteres");
+						throw new IllegalArgumentException(
+								"O nome é obrigatório e deve possuir entre 3 e 250 caracteres");
 					}		
 					
 					boolean isDescricaoInvalida = restaurante.getDescricao() == null 
@@ -54,7 +55,8 @@ public class RestauranteService {
 							|| restaurante.getDescricao().length() < 10;
 					
 					if (isDescricaoInvalida) {
-						throw new IllegalArgumentException("A descrição é obrigatória e deve possuir no mínimo 10 caracteres");
+						throw new IllegalArgumentException(
+								"A descrição é obrigatória e deve possuir no mínimo 10 caracteres");
 					}
 					
 					boolean isLogradouroInvalido = restaurante.getEndereco().getLogradouro() == null
@@ -84,7 +86,7 @@ public class RestauranteService {
 							
 					if (isBairroInvalido) {
 						throw new IllegalArgumentException(
-								"O endereço é obrigatório e o campo Cidade deve possuir entre 3 e 250 caracteres");
+								"O bairro do endereço é obrigatório enão deve possuir entre 3 e 250 caracteres");
 					}
 					
 				} else {
@@ -105,12 +107,14 @@ public class RestauranteService {
 			int qtdeHorarios = daoHorario.contarPor(idDoRestaurante);
 			
 			if (qtdeHorarios > 0) {
-				throw new IllegalArgumentException("O restaurante não pode ser excluído porque contém horários cadastrados nele");
+				throw new IllegalArgumentException(
+						"O restaurante não pode ser excluído porque contém horários cadastrados nele");
 			} else {
 				this.dao.excluirPor(idDoRestaurante);
 			}
 		} else {
-			throw new IllegalArgumentException("O id para remoção do restaurante deve ser maior que zero");
+			throw new IllegalArgumentException(
+					"O id para remoção do restaurante deve ser maior que zero");
 		}
 	}
 
@@ -118,11 +122,13 @@ public class RestauranteService {
 		if (idDoRestaurante > 0) {
 			Restaurante restauranteEncontrado = dao.buscarPor(idDoRestaurante);
 			if (restauranteEncontrado == null) {
-				throw new IllegalArgumentException("Não foi encontrado restaurante para o código informado");
+				throw new IllegalArgumentException(
+						"Não foi encontrado restaurante para o código informado");
 			}
 			return restauranteEncontrado;
 		} else {
-			throw new IllegalArgumentException("O id para busca do restaurante deve ser maior que zero");
+			throw new IllegalArgumentException(
+					"O id para busca do restaurante deve ser maior que zero");
 		}
 	}
 
@@ -133,7 +139,8 @@ public class RestauranteService {
 				
 		String filtro = "";
 		if (!isNomeInformado && !isCategoriaInformada) {
-			throw new IllegalArgumentException("Informar o nome ou categoria para listagem");
+			throw new IllegalArgumentException(
+					"Informar o nome ou categoria para listagem");
 		}
 		
 		if (isCategoriaInformada) {
