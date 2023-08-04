@@ -6,7 +6,6 @@ import br.com.senai.core.dao.DaoHorario;
 import br.com.senai.core.dao.DaoRestaurante;
 import br.com.senai.core.dao.FactoryDao;
 import br.com.senai.core.domain.Categoria;
-import br.com.senai.core.domain.Horario;
 import br.com.senai.core.domain.Restaurante;
 
 public class RestauranteService {
@@ -78,7 +77,6 @@ public class RestauranteService {
 								"A cidade do endereço é obrigatório e não deve possuir mais de 80 caracteres");
 					}
 					
-					
 					boolean isBairroInvalido = restaurante.getEndereco().getBairro() == null 
 							|| restaurante.getEndereco().getBairro().isBlank()
 							|| restaurante.getEndereco().getBairro().length() < 3
@@ -104,9 +102,9 @@ public class RestauranteService {
 	public void removerPor(int idDoRestaurante) {
 		if (idDoRestaurante > 0) {
 			
-			List<Horario> horarios = daoHorario.listarPor(idDoRestaurante);
+			int qtdeHorarios = daoHorario.contarPor(idDoRestaurante);
 			
-			if (horarios.size() > 0) {
+			if (qtdeHorarios > 0) {
 				throw new IllegalArgumentException("O restaurante não pode ser excluído porque contém horários cadastrados nele");
 			} else {
 				this.dao.excluirPor(idDoRestaurante);
