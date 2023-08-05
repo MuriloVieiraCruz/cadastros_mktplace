@@ -1,0 +1,21 @@
+Implement swing worker
+Change edit validation to a Boolean
+Place the mouse at the beginning of the field
+Tidy up the size of the list field
++ " AND h.id != ? "
+
+Make a shopping system for my parents
+
+
+								
+											 |USER|
+											   |
+										     |VIEW|
+											   |
+										  |CONTROLLER|
+											   |
+										   |SERVICE|
+											   |
+											 |DAO|
+											   |
+										   |DATABASE|

@@ -46,7 +46,7 @@ public class DaoPostgresRestaurante implements DaoRestaurante {
 			  + " WHERE r.id_categoria = c.id"
 			  + " ORDER BY r.nome";
 	
-	private final String COUNT_BY_REST = "SELECT COUNT(*) qtde"
+	private final String COUNT_BY_CATEG = "SELECT COUNT(*) qtde"
 			+ " FROM restaurantes r"
 			+ " WHERE r.id_categoria = ?";
 	
@@ -246,7 +246,7 @@ public class DaoPostgresRestaurante implements DaoRestaurante {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = conexao.prepareStatement(COUNT_BY_REST);
+			ps = conexao.prepareStatement(COUNT_BY_CATEG);
 			ps.setInt(1, idCategoria);
 			rs = ps.executeQuery();
 			if (rs.next()) {

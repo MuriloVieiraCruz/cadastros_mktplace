@@ -54,6 +54,7 @@ public class ViewCadastroCategoria extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				edtNome.setText("");
+				categoria = null;
 			}
 		});
 		btnCancelar.setBounds(524, 76, 89, 23);

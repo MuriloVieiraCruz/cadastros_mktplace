@@ -81,7 +81,7 @@ public class ViewConsultaCategoria extends JFrame {
 					} else {
 						CategoriaTableModel model = new CategoriaTableModel(categoriasEncontrados);
 						tableCategoria.setModel(model);
-						tamanhoColuna();
+						configurarTabela();
 					}
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(contentPane, ex.getMessage());
@@ -158,12 +158,20 @@ public class ViewConsultaCategoria extends JFrame {
 		panelAcoes.add(btnEditar);
 
 		JScrollPane scrollPane = new JScrollPane(tableCategoria);
-		tamanhoColuna();
 		scrollPane.setBounds(12, 114, 665, 204);
 		contentPane.add(scrollPane);
 	}
 	
-	public void tamanhoColuna() {
-		tableCategoria.getColumnModel().getColumn(1).setPreferredWidth(500);
+	private void configurarColuna(int indice, int largura) {
+		this.tableCategoria.getColumnModel().getColumn(indice).setResizable(true);
+		this.tableCategoria.getColumnModel().getColumn(indice).setPreferredWidth(largura);
+	}
+	
+	private void configurarTabela() {
+		final int COLUNA_ID = 0;
+		final int COLUNA_NOME = 1;
+		this.tableCategoria.getTableHeader().setReorderingAllowed(false);
+		this.configurarColuna(COLUNA_ID, 90);
+		this.configurarColuna(COLUNA_NOME, 250);
 	}
 }

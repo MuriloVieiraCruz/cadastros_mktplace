@@ -10,7 +10,6 @@ import java.util.List;
 
 import br.com.senai.core.dao.DaoHorario;
 import br.com.senai.core.dao.ManagerDb;
-import br.com.senai.core.domain.Categoria;
 import br.com.senai.core.domain.Endereco;
 import br.com.senai.core.domain.Horario;
 import br.com.senai.core.domain.Restaurante;
@@ -32,10 +31,9 @@ public class DaoPostgresHorario implements DaoHorario{
 	private final String SELECT_BY_ID_RESTAURANTE = "SELECT h.id, h.dia_semana,"
 			+ " h.hora_abertura, h.hora_fechamento, r.id id_restaurante, r.nome nome_restaurante,"
 			+ " r.descricao , r.cidade , r.logradouro," 
-			+ " r.bairro , r.complemento , c.id id_categoria , c.nome nome_categoria "
-			+ " FROM horarios_atendimento h , restaurantes r, categorias c"
-			+ " WHERE r.id_categoria = c.id"
-			+ " AND h.id_restaurante = r.id"
+			+ " r.bairro , r.complemento"
+			+ " FROM horarios_atendimento h , restaurantes r"
+			+ " WHERE h.id_restaurante = r.id"
 			+ " AND r.id = ?"
 			+ " ORDER BY"
 			+ " CASE dia_semana"
@@ -176,12 +174,9 @@ public class DaoPostgresHorario implements DaoHorario{
 			String bairro = rs.getString("bairro");
 			String complemento = rs.getString("complemento");
 			
-			int idDaCategoria = rs.getInt("id_categoria");
-			String nomeDaCategoria = rs.getString("nome_categoria");
 			
 			Endereco endereco = new Endereco(cidade, logradouro, bairro, complemento);
-			Categoria categoria = new Categoria(idDaCategoria, nomeDaCategoria);
-			Restaurante restaurante = new Restaurante(idDoRestaurante, nomeRestaurante, descricao, endereco, categoria);
+			Restaurante restaurante = new Restaurante(idDoRestaurante, nomeRestaurante, descricao, endereco, null);
 			
 			return new Horario(id_horario, dia_semana, hora_abertura, hora_fechamento, restaurante);
 			

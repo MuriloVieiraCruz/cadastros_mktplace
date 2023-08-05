@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,8 +150,10 @@ public class ViewCadastroHorario extends JFrame {
 				
 				try {	
 					
-					LocalTime horaInicial = LocalTime.parse(txtAbertura.getText());
-					LocalTime horaFinal = LocalTime.parse(txtFechamento.getText());
+					DateTimeFormatter horaFormatter = DateTimeFormatter.ofPattern("HH:mm");
+					
+					LocalTime horaInicial = LocalTime.parse(txtAbertura.getText().formatted(horaFormatter)); 
+					LocalTime horaFinal = LocalTime.parse(txtFechamento.getText().formatted(horaFormatter));
 					String diaDaSemana = (String) cbDiaDaSemana.getSelectedItem();
 					Restaurante restaurante = (Restaurante) cbRestaurante.getSelectedItem();
 	
@@ -232,7 +235,7 @@ public class ViewCadastroHorario extends JFrame {
 						try {
 							horarioService.removerPor(horarioSelecionado.getId());
 							model.removerPor(linhaSelecionada);
-							tableHorario.updateUI();
+							mostrarLista(horarioSelecionado.getRestaurante());
 							JOptionPane.showMessageDialog(contentPane, "Horário removido com sucesso!");
 						} catch (IndexOutOfBoundsException iobe) {
 							JOptionPane.showMessageDialog(contentPane, iobe.getMessage());
