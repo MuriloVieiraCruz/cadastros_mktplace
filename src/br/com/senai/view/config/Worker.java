@@ -6,7 +6,7 @@ import br.com.senai.view.categoria.ViewConsultaCategoria;
 import br.com.senai.view.horario.ViewCadastroHorario;
 import br.com.senai.view.restaurante.ViewConsultaRestaurante;
 
-public class Worker extends SwingWorker<Void, Void>{
+public class Worker extends SwingWorker<Void, String>{
 	
 	private ViewCadastroHorario viewHorario;
 	private ViewConsultaCategoria viewCategoria;
@@ -20,10 +20,10 @@ public class Worker extends SwingWorker<Void, Void>{
 
 	@Override
 	protected Void doInBackground() throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
-	
+
 	public ViewCadastroHorario getViewCadastroHorario() {
 		return this.viewHorario;
 	}

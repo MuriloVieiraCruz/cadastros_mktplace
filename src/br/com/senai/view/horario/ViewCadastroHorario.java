@@ -90,6 +90,7 @@ public class ViewCadastroHorario extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewCadastroHorario() {
+		setTitle("Gerenciar Horários - Cadastro");
 		this.horarioService = new HorarioService();
 		this.retauranteService = new RestauranteService();
 		HorarioTableModel model = new HorarioTableModel(new ArrayList<Horario>());
