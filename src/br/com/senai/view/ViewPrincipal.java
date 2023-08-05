@@ -10,15 +10,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import br.com.senai.view.categoria.ViewCadastroCategoria;
-import br.com.senai.view.horario.ViewCadastroHorario;
-import br.com.senai.view.restaurante.ViewConsultaRestaurante;
+import br.com.senai.view.config.Worker;
 
 public class ViewPrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
+	private Worker worker;
 
 	/**
 	 * Create the frame.
@@ -33,6 +32,9 @@ public class ViewPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		worker = new Worker();
+		worker.execute();
+		
 		JMenuBar barraPrincipal = new JMenuBar();
 		barraPrincipal.setBounds(0, 0, 784, 22);
 		contentPane.add(barraPrincipal);
@@ -43,8 +45,8 @@ public class ViewPrincipal extends JFrame {
 		JMenuItem opcaoCategorias = new JMenuItem("Categorias");		
 		opcaoCategorias.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewCadastroCategoria view = new ViewCadastroCategoria();
-				view.setVisible(true);
+        
+				worker.getViewConsultaCategoria().setVisible(true);
 			}
 		});
 		menuCadastros.add(opcaoCategorias);
@@ -52,8 +54,8 @@ public class ViewPrincipal extends JFrame {
 		JMenuItem opcaoRestaurantes = new JMenuItem("Restaurantes");
 		opcaoRestaurantes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewConsultaRestaurante view = new ViewConsultaRestaurante();
-				view.setVisible(true);
+				
+				worker.getViewConsultaRestaurante().setVisible(true);
 			}
 		});
 		menuCadastros.add(opcaoRestaurantes);
@@ -64,8 +66,8 @@ public class ViewPrincipal extends JFrame {
 		JMenuItem opcaoHorarios = new JMenuItem("Horários");		
 		opcaoHorarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ViewCadastroHorario view = new ViewCadastroHorario();
-				view.setVisible(true);
+				
+				worker.getViewCadastroHorario().setVisible(true);
 			}
 		});
 		menuConfiguracoes.add(opcaoHorarios);

@@ -2,6 +2,9 @@ package br.com.senai.view.horario;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -56,6 +59,7 @@ public class ViewCadastroHorario extends JFrame {
 
 						mostrarLista(restauranteInformado);
 						limparCampos();
+						//stop();
 
 					} else {
 
@@ -143,6 +147,20 @@ public class ViewCadastroHorario extends JFrame {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		txtFechamento.addFocusListener((FocusListener) new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            	txtFechamento.setCaretPosition(0);
+            }
+        });
+		
+		txtAbertura.addFocusListener((FocusListener) new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            	txtAbertura.setCaretPosition(0);
+            }
+        });
 
 		JButton btnAdic = new JButton("Adicionar");
 		btnAdic.addActionListener(new ActionListener() {
@@ -280,9 +298,10 @@ public class ViewCadastroHorario extends JFrame {
 	}
 
 	private void mostrarLista(Restaurante restauranteInformado) {
-		List<Horario> horariosEncontrados = horarioService.listarPorId(restauranteInformado.getId());
+	                
+	                List<Horario> horariosEncontrados = horarioService.listarPorId(restauranteInformado.getId());
 
-		HorarioTableModel model = new HorarioTableModel(horariosEncontrados);
-		tableHorario.setModel(model);
+	        		HorarioTableModel model = new HorarioTableModel(horariosEncontrados);
+	        		tableHorario.setModel(model);
 	}
 }
