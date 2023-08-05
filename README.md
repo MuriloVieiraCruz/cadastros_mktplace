@@ -5,8 +5,7 @@
 
 O projeto "Cadastros_MarketPlace" é uma aplicação desktop desenvolvida com o objetivo principal de gerenciar os dados dos restaurantes que oferecerão seus cardápios. Neste módulo de gestão, pode-se incluir novos restaurantes categorias e horários que serão apresentados na aplicação. 
 
-O desenvolvimento do projeto foi realizado com o total pensamento crítico, onde que o mesmo não é dependente do JavaSwing para ser o front-end, com a palicação sendo modularizada de forma específica.
-
+O desenvolvimento do projeto foi realizado com o total pensamento crítico, onde que o mesmo não é dependente do JavaSwing para ser o front-end, podendo aplicar outros tipos de front-end.
 ## Telas
 
 <div class="grid">
