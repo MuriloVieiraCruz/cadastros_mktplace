@@ -9,10 +9,10 @@ O desenvolvimento do projeto foi realizado com o total pensamento crítico, onde
 ## Telas
 
 <div class="grid">
-    <img src="https://github.com/MuriloVieiraCruz/cadastros_mktplace/assets/113257963/217447bf-4878-4969-b4f4-1ce790613102" height="270" width="500" alt="Imagem 1">
-    <img src="https://github.com/MuriloVieiraCruz/cadastros_mktplace/assets/113257963/fb824242-82da-4962-862c-846790af1403" height="270" width="500" alt="Imagem 2">
-    <img src="https://github.com/MuriloVieiraCruz/cadastros_mktplace/assets/113257963/5a722f9b-8fcd-4549-a83b-916da6012434" height="270" width="500" alt="Imagem 3">
-    <img src="https://github.com/MuriloVieiraCruz/cadastros_mktplace/assets/113257963/04930b7e-a83f-48df-9bdc-9f6ab4390daa" height="270" width="500" alt="Imagem 4">
+    <img src="https://github.com/MuriloVieiraCruz/cadastros_mktplace/blob/main/images/Captura%20de%20tela%202023-08-05%20145040.png" height="270" width="500" alt="Imagem 1">
+    <img src="https://github.com/MuriloVieiraCruz/cadastros_mktplace/blob/main/images/Captura%20de%20tela%202023-08-05%20145418.png" height="270" width="500" alt="Imagem 2">
+    <img src="https://github.com/MuriloVieiraCruz/cadastros_mktplace/blob/main/images/Captura%20de%20tela%202023-08-05%20152045.png" height="270" width="500" alt="Imagem 3">
+    <img src="https://github.com/MuriloVieiraCruz/cadastros_mktplace/blob/main/images/Captura%20de%20tela%202023-08-05%20153244.png" height="270" width="500" alt="Imagem 4">
 </div>
 
 # Tecnologias utilizadas
