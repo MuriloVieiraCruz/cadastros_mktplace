@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.senai.view.categoria.ViewConsultaCategoria;
-import br.com.senai.view.config.Worker;
 import br.com.senai.view.horario.ViewCadastroHorario;
 import br.com.senai.view.restaurante.ViewConsultaRestaurante;
 
@@ -20,7 +19,6 @@ public class ViewPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
-//	private Worker worker;
 
 	/**
 	 * Create the frame.
@@ -33,11 +31,7 @@ public class ViewPrincipal extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-//		worker = new Worker();
-//		worker.execute();
-		
+		contentPane.setLayout(null);		
 		
 		JMenuBar barraPrincipal = new JMenuBar();
 		barraPrincipal.setBounds(0, 0, 784, 22);
@@ -51,9 +45,7 @@ public class ViewPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
    
 				ViewConsultaCategoria view = new ViewConsultaCategoria();
-				view.setVisible(true);
-				//worker.getViewConsultaCategoria().setVisible(true);
-				
+				view.setVisible(true);		
 			}
 		});
 		menuCadastros.add(opcaoCategorias);
@@ -64,7 +56,6 @@ public class ViewPrincipal extends JFrame {
 				
 				ViewConsultaRestaurante view = new ViewConsultaRestaurante();
 				view.setVisible(true);
-				//worker.getViewConsultaRestaurante().setVisible(true);
 			}
 		});
 		menuCadastros.add(opcaoRestaurantes);
@@ -78,7 +69,6 @@ public class ViewPrincipal extends JFrame {
 				
 				ViewCadastroHorario view = new ViewCadastroHorario();
 				view.setVisible(true);
-				//worker.getViewCadastroHorario().setVisible(true);
 			}
 		});
 		menuConfiguracoes.add(opcaoHorarios);

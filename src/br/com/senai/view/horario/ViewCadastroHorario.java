@@ -195,7 +195,9 @@ public class ViewCadastroHorario extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "Horário alterado com sucesso!");
 					}
 				} catch (DateTimeParseException e2) {
-					JOptionPane.showMessageDialog(contentPane, "O horário precisa estar dentro do formato 24h");
+					JOptionPane.showMessageDialog(contentPane, "O horário é obrigatório e precisa estar no formato 24h");
+				} catch (NullPointerException e3) {
+					JOptionPane.showMessageDialog(contentPane, "Todos os campos são obrigatórios");
 				} catch (Exception e3) {
 					JOptionPane.showMessageDialog(contentPane, e3.getMessage());
 				}
@@ -208,7 +210,7 @@ public class ViewCadastroHorario extends JFrame {
 		btnCancelar.addActionListener(new ActionListener() {
 
 	public void actionPerformed(ActionEvent e) {
-		limparCampos();
+		limparTodosOsCampos();
 			}
 		});
 		btnCancelar.setBounds(499, 319, 101, 22);
@@ -296,6 +298,11 @@ public class ViewCadastroHorario extends JFrame {
 		txtAbertura.setText("");
 		txtFechamento.setText("");
 		cbDiaDaSemana.setSelectedIndex(0);
+	}
+	
+	private void limparTodosOsCampos() {
+		limparCampos();
+		cbRestaurante.setSelectedIndex(0);
 	}
 
 	private void mostrarLista(Restaurante restauranteInformado) {

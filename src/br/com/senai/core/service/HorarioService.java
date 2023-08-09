@@ -44,7 +44,7 @@ public class HorarioService {
 							&& horario.getHoraFechamento().isAfter(horari.getHoraAbertura()));
 			
 			if (isConflito) {
-				throw new IllegalArgumentException("O horário informado está comflitando com outro cadastrado no banco");
+				throw new IllegalArgumentException("O horário informado está conflitando com outro cadastrado no banco");
 			}
 			
 			
@@ -63,7 +63,7 @@ public class HorarioService {
 			
 			boolean isHorarioInvalido = horario.getHoraAbertura().isAfter(tempoMaximo)
 					||  horario.getHoraAbertura().isBefore(tempoMin) 
-					|| horario.getHoraFechamento().isAfter(tempoMaximo)
+					|| 	horario.getHoraFechamento().isAfter(tempoMaximo)
 					||  horario.getHoraFechamento().isBefore(tempoMin);
 			
 			if (isHorarioInvalido) {
