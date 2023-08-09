@@ -32,6 +32,7 @@ import br.com.senai.core.domain.Restaurante;
 import br.com.senai.core.service.HorarioService;
 import br.com.senai.core.service.RestauranteService;
 import br.com.senai.view.componentes.table.HorarioTableModel;
+import br.com.senai.view.config.Work;
 
 public class ViewCadastroHorario extends JFrame {
 
@@ -48,9 +49,11 @@ public class ViewCadastroHorario extends JFrame {
 	private Horario horario;
 	private JFormattedTextField txtAbertura;
 	private JFormattedTextField txtFechamento;
+	
 
 	public void carregarComboRestaurante() {
 		cbRestaurante = new JComboBox<Restaurante>();
+		cbRestaurante.setEnabled(false);
 		cbRestaurante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Restaurante restauranteInformado = (Restaurante) cbRestaurante.getSelectedItem();
@@ -59,8 +62,6 @@ public class ViewCadastroHorario extends JFrame {
 
 						mostrarLista(restauranteInformado);
 						limparCampos();
-						//stop();
-
 					} else {
 
 						HorarioTableModel model = new HorarioTableModel(new ArrayList<Horario>());
@@ -72,11 +73,6 @@ public class ViewCadastroHorario extends JFrame {
 				}
 			}
 		});
-		cbRestaurante.addItem(null);
-		List<Restaurante> restaurantes = retauranteService.listarTodas();
-		for (Restaurante ca : restaurantes) {
-			cbRestaurante.addItem(ca);
-		}
 	}
 
 	private void setHorario(Horario horario) {
@@ -91,15 +87,21 @@ public class ViewCadastroHorario extends JFrame {
 	 */
 	public ViewCadastroHorario() {
 		setTitle("Gerenciar Horários - Cadastro");
-		this.horarioService = new HorarioService();
-		this.retauranteService = new RestauranteService();
 		HorarioTableModel model = new HorarioTableModel(new ArrayList<Horario>());
 		this.tableHorario = new JTable(model);
 		this.tableHorario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 673, 391);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));	
+		
+		Work.chamarAssincrono(() -> {
+			retauranteService = new RestauranteService();
+			return retauranteService.listarTodas();
+		}, (List<Restaurante> restaurantes) -> {
+			carregarValoresComboRestaurante(restaurantes);
+			cbRestaurante.setEnabled(true);
+		});
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -283,6 +285,13 @@ public class ViewCadastroHorario extends JFrame {
 		contentPane.add(lblHor);
 		
 	}
+	
+	private void carregarValoresComboRestaurante(List<Restaurante> restaurantes) {
+		cbRestaurante.addItem(null);
+		for (Restaurante ca : restaurantes) {
+			cbRestaurante.addItem(ca);
+		}
+	}
 
 	public void carregarComboDiaSemana() {
 		cbDiaDaSemana = new JComboBox<>();
@@ -307,9 +316,9 @@ public class ViewCadastroHorario extends JFrame {
 
 	private void mostrarLista(Restaurante restauranteInformado) {
 	                
-	                List<Horario> horariosEncontrados = horarioService.listarPorId(restauranteInformado.getId());
+        List<Horario> horariosEncontrados = horarioService.listarPorId(restauranteInformado.getId());
 
-	        		HorarioTableModel model = new HorarioTableModel(horariosEncontrados);
-	        		tableHorario.setModel(model);
+		HorarioTableModel model = new HorarioTableModel(horariosEncontrados);
+		tableHorario.setModel(model);
 	}
 }
