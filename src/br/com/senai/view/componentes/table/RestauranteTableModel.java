@@ -10,7 +10,7 @@ public class RestauranteTableModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final int QTDE_COLUNAS = 2;
+	private final int QTDE_COLUNAS = 3;
 
 	private List<Restaurante> restaurantes;
 
@@ -28,6 +28,8 @@ public class RestauranteTableModel extends AbstractTableModel {
 			return "ID";
 		} else if (column == 1) {
 			return "Nome";
+		} else if (column == 2) {
+			return "Categoria";
 		}
 		throw new IllegalArgumentException("Indíce inválido");
 	}
@@ -38,6 +40,8 @@ public class RestauranteTableModel extends AbstractTableModel {
 			return restaurantes.get(rowIndex).getId();
 		} else if (columnIndex == 1) {
 			return restaurantes.get(rowIndex).getNome();
+		} else if (columnIndex == 2) {
+			return restaurantes.get(rowIndex).getCategoria().getNome();
 		}
 		throw new IllegalArgumentException("Índice inválido");
 	}
