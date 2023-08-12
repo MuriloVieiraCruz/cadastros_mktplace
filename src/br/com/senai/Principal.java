@@ -7,6 +7,6 @@ public class Principal {
 	public static void main(String[] args) {
 		new ViewPrincipal().setVisible(true);
 		
-		System.out.println("Aplicação iniciada com sucesso22222");
+		
 	}
 }

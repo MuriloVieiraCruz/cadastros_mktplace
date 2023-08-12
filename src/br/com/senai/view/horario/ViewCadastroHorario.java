@@ -32,7 +32,6 @@ import br.com.senai.core.domain.Restaurante;
 import br.com.senai.core.service.HorarioService;
 import br.com.senai.core.service.RestauranteService;
 import br.com.senai.view.componentes.table.HorarioTableModel;
-import br.com.senai.view.config.Work;
 
 public class ViewCadastroHorario extends JFrame {
 
@@ -53,13 +52,14 @@ public class ViewCadastroHorario extends JFrame {
 
 	public void carregarComboRestaurante() {
 		cbRestaurante = new JComboBox<Restaurante>();
+		List<Restaurante> restaurantes = retauranteService.listarTodas();
+		carregarValoresComboRestaurante(restaurantes);
 		cbRestaurante.setEnabled(false);
 		cbRestaurante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Restaurante restauranteInformado = (Restaurante) cbRestaurante.getSelectedItem();
 				try {
 					if (restauranteInformado != null) {
-
 						mostrarLista(restauranteInformado);
 						limparCampos();
 					} else {
@@ -86,6 +86,7 @@ public class ViewCadastroHorario extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewCadastroHorario() {
+		this.retauranteService = new RestauranteService();
 		setTitle("Gerenciar Horários - Cadastro");
 		HorarioTableModel model = new HorarioTableModel(new ArrayList<Horario>());
 		this.tableHorario = new JTable(model);
@@ -94,14 +95,6 @@ public class ViewCadastroHorario extends JFrame {
 		setBounds(100, 100, 673, 391);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));	
-		
-		Work.chamarAssincrono(() -> {
-			retauranteService = new RestauranteService();
-			return retauranteService.listarTodas();
-		}, (List<Restaurante> restaurantes) -> {
-			carregarValoresComboRestaurante(restaurantes);
-			cbRestaurante.setEnabled(true);
-		});
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
