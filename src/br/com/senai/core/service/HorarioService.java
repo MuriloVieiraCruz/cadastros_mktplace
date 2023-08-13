@@ -1,5 +1,6 @@
 package br.com.senai.core.service;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class HorarioService {
 		this.dao = FactoryDao.getInstance().getDaoHorario();
 	}
 	
-	public void salvar(Horario horario) {
+	public void salvar(Horario horario) throws IOException {
 		this.validar(horario);
 		
 		boolean isPersistido = horario.getId() > 0;

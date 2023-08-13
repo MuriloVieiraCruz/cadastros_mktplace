@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -32,6 +33,8 @@ import br.com.senai.core.domain.Restaurante;
 import br.com.senai.core.service.HorarioService;
 import br.com.senai.core.service.RestauranteService;
 import br.com.senai.view.componentes.table.HorarioTableModel;
+import br.com.senai.view.config.Utilitario;
+import br.com.senai.view.config.Work;
 
 public class ViewCadastroHorario extends JFrame {
 
@@ -41,20 +44,22 @@ public class ViewCadastroHorario extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable tableHorario;
-	private RestauranteService retauranteService;
+	private RestauranteService restauranteService;
 	private HorarioService horarioService;
 	private JComboBox<String> cbDiaDaSemana;
 	private JComboBox<Restaurante> cbRestaurante;
 	private Horario horario;
 	private JFormattedTextField txtAbertura;
 	private JFormattedTextField txtFechamento;
+	private Utilitario util;
+	boolean isEditando = false;
 	
 
 	public void carregarComboRestaurante() {
+		this.horarioService = new HorarioService(); 
 		cbRestaurante = new JComboBox<Restaurante>();
-		List<Restaurante> restaurantes = retauranteService.listarTodas();
+		List<Restaurante> restaurantes = restauranteService.listarTodas();
 		carregarValoresComboRestaurante(restaurantes);
-		cbRestaurante.setEnabled(false);
 		cbRestaurante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Restaurante restauranteInformado = (Restaurante) cbRestaurante.getSelectedItem();
@@ -86,7 +91,8 @@ public class ViewCadastroHorario extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewCadastroHorario() {
-		this.retauranteService = new RestauranteService();
+		util = new Utilitario();
+		this.restauranteService = new RestauranteService();
 		setTitle("Gerenciar Horários - Cadastro");
 		HorarioTableModel model = new HorarioTableModel(new ArrayList<Horario>());
 		this.tableHorario = new JTable(model);
@@ -180,14 +186,27 @@ public class ViewCadastroHorario extends JFrame {
 						horario = null;
 
 					} else {
+						
+						isEditando = false;
 						horario.setDiaDaSemana(diaDaSemana);
 						horario.setHoraAbertura(horaInicial);
 						horario.setHoraFechamento(horaFinal);
 						horario.setRestaurante(restaurante);
 						horarioService.salvar(horario);
 						mostrarLista(restaurante);
-						
+
 						JOptionPane.showMessageDialog(contentPane, "Horário alterado com sucesso!");
+						
+						Work.chamarAssincrono(() -> {
+							return horarioService.listarPorId(restaurante.getId());
+						}, (List<Horario> horarios) -> {
+							String tabela = criarTabela(horarios);
+							try {
+								util.enviarEmail(tabela, horario.getRestaurante().getNome());
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						});
 					}
 				} catch (DateTimeParseException e2) {
 					JOptionPane.showMessageDialog(contentPane, "O horário é obrigatório e precisa estar no formato 24h");
@@ -220,6 +239,7 @@ public class ViewCadastroHorario extends JFrame {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				isEditando = true;
 				
 				int linhaSelecionada = tableHorario.getSelectedRow();
 				
@@ -240,27 +260,32 @@ public class ViewCadastroHorario extends JFrame {
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int linhaSelecionada = tableHorario.getSelectedRow();
-				HorarioTableModel model = (HorarioTableModel) tableHorario.getModel();
-				if (linhaSelecionada >= 0 && !model.isVazio()) {
-					int opcao = JOptionPane.showConfirmDialog(contentPane, "Deseja realmente remover!?", "Remoção",
-							JOptionPane.YES_NO_OPTION);
-					if (opcao == 0) {
-
-						Horario horarioSelecionado = model.getPorLinha(linhaSelecionada);
-						try {
-							horarioService.removerPor(horarioSelecionado.getId());
-							model.removerPor(linhaSelecionada);
-							mostrarLista(horarioSelecionado.getRestaurante());
-							JOptionPane.showMessageDialog(contentPane, "Horário removido com sucesso!");
-						} catch (IndexOutOfBoundsException iobe) {
-							JOptionPane.showMessageDialog(contentPane, iobe.getMessage());
-						} catch (Exception ex) {
-							JOptionPane.showMessageDialog(contentPane, ex.getMessage());
-						}
-					}
+				
+				if (isEditando == true) {
+					JOptionPane.showMessageDialog(contentPane, "Termine ou cancele a edição para poder excluir!");
 				} else {
-					JOptionPane.showMessageDialog(contentPane, "Selecione uma linha para remoção.");
+					int linhaSelecionada = tableHorario.getSelectedRow();
+					HorarioTableModel model = (HorarioTableModel) tableHorario.getModel();
+					if (linhaSelecionada >= 0 && !model.isVazio()) {
+						int opcao = JOptionPane.showConfirmDialog(contentPane, "Deseja realmente remover!?", "Remoção",
+								JOptionPane.YES_NO_OPTION);
+						if (opcao == 0) {
+
+							Horario horarioSelecionado = model.getPorLinha(linhaSelecionada);
+							try {
+								horarioService.removerPor(horarioSelecionado.getId());
+								model.removerPor(linhaSelecionada);
+								mostrarLista(horarioSelecionado.getRestaurante());
+								JOptionPane.showMessageDialog(contentPane, "Horário removido com sucesso!");
+							} catch (IndexOutOfBoundsException iobe) {
+								JOptionPane.showMessageDialog(contentPane, iobe.getMessage());
+							} catch (Exception ex) {
+								JOptionPane.showMessageDialog(contentPane, ex.getMessage());
+							}
+						}
+					} else {
+						JOptionPane.showMessageDialog(contentPane, "Selecione uma linha para remoção.");
+					}
 				}
 			}
 		});
@@ -297,6 +322,7 @@ public class ViewCadastroHorario extends JFrame {
 	}
 
 	private void limparCampos() {
+		this.horario = null;
 		txtAbertura.setText("");
 		txtFechamento.setText("");
 		cbDiaDaSemana.setSelectedIndex(0);
@@ -313,5 +339,47 @@ public class ViewCadastroHorario extends JFrame {
 
 		HorarioTableModel model = new HorarioTableModel(horariosEncontrados);
 		tableHorario.setModel(model);
+	}
+	
+	private static String criarTabela(List<Horario> horarios) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("<table style='width:30%; border-collapse:collapse; text-align:center; border:1px solid black; '>");
+		builder.append("<tr><th style='background-color:green; color:white; border:1px; border:1px solid black; '>Dia da Semana</th>");
+		builder.append("<th style='background-color:green; color:white; border:1px; border:1px solid black; '>Hora inicial</th>");
+		builder.append("<th style='background-color:green; color:white; border:1px; border:1px solid black; '>Hora Final</th></tr>");
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");		
+		
+		String validacao = null;
+		
+		for (Horario horario : horarios) {
+			builder.append("<tr>");
+			
+			if (validacao == null || !validacao.equals(horario.getDiaDaSemana())) {
+				int quantidadeRowspan = contarLinhasDoMesmoDia(horarios, horario.getDiaDaSemana());
+				builder
+				.append("<td style='border:1px solid black;' rowspan=" + quantidadeRowspan + " >")
+				.append(horario.getDiaDaSemana())
+				.append("</td>");
+				
+				validacao = horario.getDiaDaSemana();
+			}
+			builder.append("<td style='border:1px solid black; '>" + horario.getHoraAbertura().format(formatter) + "</td>");
+			builder.append("<td style='border:1px solid black; '>" + horario.getHoraFechamento().format(formatter) + "</td>");
+			builder.append("</tr>");
+		}
+		builder.append("</table>");
+		
+		return builder.toString();
+	}
+	
+	private static int contarLinhasDoMesmoDia(List<Horario> horarios, String diaDaSemana) {		
+		int contador = 0;
+		for (Horario horario : horarios) {
+			if (horario.getDiaDaSemana().equals(diaDaSemana)) {
+				contador += 1;
+			}
+		}
+		return contador;
 	}
 }
