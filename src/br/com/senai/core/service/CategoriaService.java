@@ -15,6 +15,7 @@ public class CategoriaService {
 	
 	public CategoriaService() {
 		this.dao = FactoryDao.getInstance().getDaoCategoria();
+		this.daoRestaurante = FactoryDao.getInstance().getDaoRestaurante();
 	}
 
 	public void salvar(Categoria categoria) {

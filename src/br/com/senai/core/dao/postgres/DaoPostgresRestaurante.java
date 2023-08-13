@@ -46,7 +46,7 @@ public class DaoPostgresRestaurante implements DaoRestaurante {
 			  + " WHERE r.id_categoria = c.id"
 			  + " ORDER BY r.nome";
 	
-	private final String COUNT_BY_CATEG = "SELECT COUNT(*) qtde"
+	private final String COUNT_BY_CATEG = "SELECT COUNT(id) qtde"
 			+ " FROM restaurantes r"
 			+ " WHERE r.id_categoria = ?";
 	
