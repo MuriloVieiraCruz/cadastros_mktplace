@@ -6,6 +6,10 @@
 O projeto "Cadastros_MarketPlace" é uma aplicação desktop desenvolvida com o objetivo principal de gerenciar os dados dos restaurantes que oferecerão seus cardápios. Neste módulo de gestão, pode-se incluir novos restaurantes categorias e horários que serão apresentados na aplicação. 
 
 O desenvolvimento do projeto foi realizado com o total pensamento crítico, onde que o mesmo não é dependente do JavaSwing para ser o front-end, podendo aplicar outros tipos de front-end.
+
+## Atualização
+Foi integrado a API do Twilio para envios de e-mail quando o horário de um restaurante é alterado, informando ao dono (por meio de html) a nova tabela de horários que seu restaurante passou a atuar.
+
 ## Telas
 
 <div class="grid">
